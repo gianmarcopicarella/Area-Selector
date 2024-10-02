@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "convex_area_selector"
+version = "1.0.0"
+authors = [
+  { name="Sjoerd de Vries", email="s.devries-16@umcutrecht.nl" },
+]
+description = "Algorithms for constructing an Bounded Area Maximum Enclosing Convex Hull"
+readme = "README.md"
+requires-python = ">=3.10.6"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+dependencies =[
+'shapely~=1.8.5',
+'numpy~=1.23.5',
+'pandas~=1.4.4',
+'scipy~=1.9.3',
+'matplotlib~=3.5.2',
+'joblib~=1.3.2']
+
+[project.optional-dependencies]
+test = ["pytest", "pytest-cov"]
+dev = ["ruff", "rsconnect-python", "nbstripout", "ipykernel"]
+
+[tool.ruff]
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "B",  # flake8-bugbear
+    "E",  # pycodestyle errors
+    "W",  # pycodestyle warnings
+    "F",  # pyflakes
+    "C90",  # mccabe complexity
+    "I",  # isort
+]
