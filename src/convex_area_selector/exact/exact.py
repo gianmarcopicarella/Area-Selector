@@ -8,7 +8,7 @@
 import math
 
 # Local imports
-from convex_area_selector.utils import utils
+from src.convex_area_selector.utils import utils
 
 
 def exact_convex_hull(points, max_area, verbose=False, key=None):

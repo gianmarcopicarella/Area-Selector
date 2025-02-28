@@ -138,12 +138,16 @@ def analyse_detections(data, settings, save_path=None):
 
 def create_patch_dict(data, settings):
     # Scaling the data to milimeter scale
-    data["x_absolute_scaled"] = data["x_absolute"] / (
-        1000 / float(settings["microns_per_pixel"])
-    )
-    data["y_absolute_scaled"] = data["y_absolute"] / (
-        1000 / float(settings["microns_per_pixel"])
-    )
+    if settings["should_scale"]:
+        data["x_absolute_scaled"] = data["x_absolute"] / (
+            1000 / float(settings["microns_per_pixel"])
+        )
+        data["y_absolute_scaled"] = data["y_absolute"] / (
+            1000 / float(settings["microns_per_pixel"])
+        )
+    else:
+        data["x_absolute_scaled"] = data["x_absolute"]
+        data["y_absolute_scaled"] = data["y_absolute"]
 
     # Inspecting the data
     xmin = data["x_absolute_scaled"].min()
@@ -202,7 +206,7 @@ def create_patch_dict(data, settings):
             points_x = rows["x_absolute_scaled"].to_list()
             points_y = rows["y_absolute_scaled"].to_list()
 
-            for point in zip(points_x, points_y, strict=True):
+            for point in zip(points_x, points_y):
                 patch_dict[(x, y)].append(point)
         else:
             # Remove all areas that are empty
@@ -233,7 +237,7 @@ def plot_result(data, top_areas, ch_dict, save_path=None):
         buffered_poly = create_buffer(ch_dict[(top_area)], buffer_size=0.01)
 
         x_convex_polygon, y_convex_polygon = [
-            list(z) for z in zip(*buffered_poly, strict=True)
+            list(z) for z in zip(*buffered_poly)
         ]
 
         x_convex_polygon.append(x_convex_polygon[0])

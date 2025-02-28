@@ -5,9 +5,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from scipy.spatial import ConvexHull
 
-import convex_area_selector.exact.exact as exact
-import convex_area_selector.heuristic.analyse_patches as analyse_patches
-from convex_area_selector.utils.utils import create_buffer
+import src.convex_area_selector.exact.exact as exact
+import src.convex_area_selector.heuristic.analyse_patches as analyse_patches
+from src.convex_area_selector.utils.utils import create_buffer
 
 path = pathlib.PurePath(__file__)
 

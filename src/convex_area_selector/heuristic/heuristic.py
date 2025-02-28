@@ -5,7 +5,7 @@
 ####
 
 # Local imports
-from convex_area_selector.utils.utils import (
+from src.convex_area_selector.utils.utils import (
     angle_within_bounds,
     calculate_angle_wrt_x_axis,
     calculate_triangle_area,

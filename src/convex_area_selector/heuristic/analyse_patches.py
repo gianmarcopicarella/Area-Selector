@@ -5,8 +5,8 @@ import numpy as np
 from scipy.spatial import ConvexHull
 
 # Local imports
-from convex_area_selector.heuristic.heuristic import convex_hull_shrinkage
-from convex_area_selector.utils import utils
+from src.convex_area_selector.heuristic.heuristic import convex_hull_shrinkage
+from src.convex_area_selector.utils import utils
 
 
 def analyse_patches(points, max_area, verbose=False, key=None):
