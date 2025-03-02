@@ -13,7 +13,7 @@ from src.convex_area_selector.convex_polygon_finder import analyse_detections
 rng = default_rng()
 
 # Settings
-max_area = 2
+max_area = 4
 verbose = False
 record_screen = False
 n_areas = 3
