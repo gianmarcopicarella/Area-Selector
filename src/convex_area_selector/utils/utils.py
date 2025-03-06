@@ -109,9 +109,9 @@ def find_top_areas(mitosis_dict, ch_dict):
                 smallest_area = total_area
                 key_smallest_area = key
 
-        print(
+        """print(
             f"key: {key_smallest_area}, area smallest: {smallest_area}, nr of candidates: {len(top_areas)}"
-        )
+        )"""
         result = {}
         result[(key_smallest_area)] = max_mitosis
 
