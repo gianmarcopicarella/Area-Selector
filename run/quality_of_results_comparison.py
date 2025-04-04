@@ -48,7 +48,7 @@ max_count = 18446744073709551615
 
 
 def run_antipodal(points, settings):
-    out = thesis.Antipodal(points, max_count, settings["max_area"], max_diameter, True, True)
+    out = thesis.AntipodalOptimized(points, max_count, settings["max_area"], max_diameter, True, True)
     if out is not None:
         return out[0], out[1], out[2], np.linalg.norm(np.array(points[out[3][0]]) - np.array(points[out[3][1]]))
 

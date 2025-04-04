@@ -1,1 +1,1 @@
-from .thesis import Eppstein, Antipodal
+from .thesis import Eppstein, Antipodal, AntipodalOptimized
