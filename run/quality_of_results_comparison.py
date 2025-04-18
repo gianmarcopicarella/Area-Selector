@@ -1,6 +1,7 @@
 import json
 import os
 import shutil
+import time
 
 import pandas as pd
 import numpy as np
@@ -39,16 +40,16 @@ default_settings = \
         "exact_max": 25,
         "microns_per_pixel": 0.23,
         "buffer": False,
-        "should_scale": False
+        "should_scale": False,
+        "max_diameter": np.inf
     }
 
 path_to_real = os.path.join(constants.PATH_TO_EXPERIMENTS, "real")
-max_diameter = np.round(np.sqrt(default_settings["patch_size"]) * default_settings["patch_size"], 3)
 max_count = 18446744073709551615
 
 
 def run_antipodal(points, settings):
-    out = thesis.AntipodalOptimized(points, max_count, settings["max_area"], max_diameter, True, True)
+    out = thesis.AntipodalOptimized(points, max_count, settings["max_area"], settings["max_diameter"], True, True)
     if out is not None:
         return out[0], out[1], out[2], np.linalg.norm(np.array(points[out[3][0]]) - np.array(points[out[3][1]]))
 
@@ -169,6 +170,8 @@ def fill_figure(figure_width, picture_width, picture_height, poly_points_str, co
 table_rows = ""
 figures = ""
 
+times = []
+
 for index in range(constants.REAL_BENCHMARKS_COUNT):
     path_to_data = os.path.join(path_to_real, str(index), "points_0.json")
     json_data = json.load(fp=open(path_to_data, "r"))
@@ -177,7 +180,12 @@ for index in range(constants.REAL_BENCHMARKS_COUNT):
     ann_avg, ann_stddev = ann(points)
 
     default_settings["step_size"] = 0.66 * 3
+    default_settings["max_diameter"] = 4
+    start_time = time.time()
     ap_result = run_antipodal(points, default_settings)
+    times.append(time.time() - start_time)
+
+    default_settings["max_diameter"] = np.inf
     as_result = run_area_selector(points, default_settings)
 
     default_settings["step_size"] = 0.5
@@ -215,3 +223,4 @@ for index in range(constants.REAL_BENCHMARKS_COUNT):
 
 print(table_header + table_rows + table_footer)
 print(figures)
+print(times)
