@@ -49,8 +49,8 @@ max_count = 18446744073709551615
 enable_optimizations = False
 
 
-def run_antipodal(points, settings):
-    out = thesis.AntipodalOptimized(points, max_count, settings["max_area"], settings["max_diameter"], True, enable_optimizations)
+def run_area_diameter(points, settings):
+    out = thesis.AreaDiameterOptimized(points, max_count, settings["max_area"], settings["max_diameter"], True, enable_optimizations)
     if out is not None:
         return out[0], out[1], out[2], np.linalg.norm(np.array(points[out[3][0]]) - np.array(points[out[3][1]]))
 
@@ -74,7 +74,7 @@ def run_area_selector(points, settings):
     return None
 
 
-def run_eppstein_tiled(points, settings):
+def run_area_only_tiled(points, settings):
     df = pd.DataFrame()
     df["x_absolute"] = [p[0] for p in points]
     df["y_absolute"] = [p[1] for p in points]
@@ -84,7 +84,7 @@ def run_eppstein_tiled(points, settings):
         patch_points = patch_dict[key]
         if result is not None and result[1] > len(patch_points):
             break
-        out = thesis.Eppstein(patch_points, max_count, settings["max_area"], True, enable_optimizations)
+        out = thesis.AreaOnly(patch_points, max_count, settings["max_area"], True, enable_optimizations)
         if out is not None and (result is None or result[1] < out[1]):
             real_hull_indices = []
             for i in out[2]:
@@ -194,7 +194,7 @@ for index in range(constants.REAL_BENCHMARKS_COUNT):
     default_settings["step_size"] = 0.66 * 3
     default_settings["max_diameter"] = 4
     start_time = time.time()
-    ap_result = run_antipodal(points, default_settings)
+    ap_result = run_area_diameter(points, default_settings)
     curr_times.append(time.time() - start_time)
 
     default_settings["max_diameter"] = np.inf
@@ -208,7 +208,7 @@ for index in range(constants.REAL_BENCHMARKS_COUNT):
     curr_times.append(time.time() - start_time)
 
     start_time = time.time()
-    et_result_050 = run_eppstein_tiled(points, default_settings)
+    et_result_050 = run_area_only_tiled(points, default_settings)
     curr_times.append(time.time() - start_time)
 
     times.append(tuple(curr_times))
@@ -236,7 +236,8 @@ for index in range(constants.REAL_BENCHMARKS_COUNT):
     figures += fill_figure(0.24, 4, 4, " ".join(f"({points[j][0]}, {points[j][1]})" for j in as_result_050[2] + [as_result_050[2][0]]), "Green", path_to_dat)
     figures += r"\hfill"
     figures += fill_figure(0.24, 4, 4, " ".join(f"({points[j][0]}, {points[j][1]})" for j in et_result_050[2] + [et_result_050[2][0]]), "RoyalPurple", path_to_dat)
-    figures += r"\caption{Convex areas found by AP (a), AS using $s=1.98$ (b), AS using $s=0.5$ (c) and ET using $s=0.5$ (d) for point set $" + str(index) + "$.}\n"
+    figures += r"\caption{(a) Mitotic hotspots found by the $\text{AD}_4$ algorithm. (b) Mitotic hotspots found by the AS algorithm using $s=1.98$. (c) Mitotic hotspots found by the AS algorithm using $s=0.5$. (d) Mitotic hotspots found by the A algorithm using $s=0.5$. We report the results for the real-world point set with index $\text{I}=" + str(index) + r"$. The patch size is $3$ $\times$ $3$ mm. The line spacing is set to $5$ $\text{mm}$.}" + "\n"
+
     figures += r"\end{figure}"
 
     print("File ", str(index), "done")

@@ -1,1 +1,1 @@
-from .thesis import Eppstein, Antipodal, AntipodalOptimized
+from .thesis import AreaOnly, AreaDiameter, AreaDiameterOptimized
