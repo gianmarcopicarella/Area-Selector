@@ -1,1 +1,1 @@
-from .thesis import AreaOnly, AreaDiameter, AreaDiameterOptimized
+from .thesis import AreaOnlyAlgorithm, AreaDiameterAlgorithm, AreaDiameterAlgorithmOptimized

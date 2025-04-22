@@ -50,7 +50,7 @@ enable_optimizations = False
 
 
 def run_area_diameter(points, settings):
-    out = thesis.AreaDiameterOptimized(points, max_count, settings["max_area"], settings["max_diameter"], True, enable_optimizations)
+    out = thesis.AreaDiameterAlgorithmOptimized(points, max_count, settings["max_area"], settings["max_diameter"], True, enable_optimizations)
     if out is not None:
         return out[0], out[1], out[2], np.linalg.norm(np.array(points[out[3][0]]) - np.array(points[out[3][1]]))
 
@@ -84,7 +84,7 @@ def run_area_only_tiled(points, settings):
         patch_points = patch_dict[key]
         if result is not None and result[1] > len(patch_points):
             break
-        out = thesis.AreaOnly(patch_points, max_count, settings["max_area"], True, enable_optimizations)
+        out = thesis.AreaOnlyAlgorithm(patch_points, max_count, settings["max_area"], True, enable_optimizations)
         if out is not None and (result is None or result[1] < out[1]):
             real_hull_indices = []
             for i in out[2]:
